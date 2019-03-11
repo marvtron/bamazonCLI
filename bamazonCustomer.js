@@ -1,6 +1,7 @@
 // Require NPM packages
 var mysql = require('mysql');
 var inquirer = require('inquirer');
+var colors = require('colors');
 
 // Setup connection to SQL server
 var connection = mysql.createConnection({
@@ -23,13 +24,13 @@ connection.connect(function(err) {
         connection.query('SELECT * FROM products', function(err, res) {
             if (err) reject(err);
             resolve(res);
-            console.log('Welcome to Bamazon! Here are our products:');
+            console.log('Welcome to Bamazon! Here are our products:'.red.underline.bold);
         });
         // Console log each item and increment the number of products
     }).then(function(result) {
         result.forEach(function(item) {
             numberOfProductTypes++;
-            console.log('Item ID: ' + item.item_id + ' || Product Name: ' + item.product_name + ' || Price: ' + item.price);
+            console.log('Item ID: '.cyan + item.item_id + ' || Product Name: '.yellow + item.product_name + ' || Price: '.green + item.price);
         });
         // Enter the store
     }).then(function() {
@@ -53,7 +54,7 @@ function enterStore() {
             menu();
         } else {
             // Exist CLI if No
-            console.log('Please come back soon! --Bamazon');
+            console.log('Please come back soon! --Bamazon'.cyan.bold);
             connection.destroy();
             return;
         }
@@ -71,7 +72,7 @@ function menu() {
             if ((isNaN(value) === false) && (value <= numberOfProductTypes)) {
                 return true;
             } else {
-                console.log('\nPlease enter a valid ID.');
+                console.log('\nPlease enter a valid ID.'.bgRed);
                 return false;
             }
         }
@@ -84,7 +85,7 @@ function menu() {
             if (isNaN(value) === false) {
                 return true;
             } else {
-                console.log('\nPlease enter a valid quantity.');
+                console.log('\nPlease enter a valid quantity.'.bgRed);
                 return false;
             }
         }
@@ -103,9 +104,9 @@ function menu() {
                 savedData.answer = answer;
                 savedData.result = result;
             } else if (parseInt(answer.quantity) > parseInt(result[0].stock_quantity)) {
-                console.log('Insufficient quantity!');
+                console.log('Insufficient quantity!'.bgRed);
             } else {
-                console.log('An error occurred, exiting Bamazon, your order is not complete.');
+                console.log('An error occurred, exiting Bamazon, your order is not complete.'.bgRed);
             }
             
             return savedData;
@@ -121,7 +122,7 @@ function menu() {
                     item_id: itemId
                 }], function(err, res) {
                     if (err) throw err;
-                    console.log('Your order total cost $' + totalCost + '. Thank you for shopping with Bamazon!');
+                    console.log('Your order total cost $'.green + totalCost + '. Thank you for shopping with Bamazon!'.cyan);
                     connection.destroy();
                 });
             } else {
