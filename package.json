@@ -1,0 +1,25 @@
+{
+  "name": "bamazonCLI",
+  "version": "1.0.0",
+  "description": "Amazon-like storefront using MySQL &amp; Node. The app will take in orders from customers and deplete stock from the store's inventory. The app is programmed to track product sales across the store's departments and then provide a summary of the highest-grossing departments in the store.",
+  "main": "bamazonCustomer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marvtron/bamazonCLI.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marvtron/bamazonCLI/issues"
+  },
+  "homepage": "https://github.com/marvtron/bamazonCLI#readme",
+  "dependencies": {
+    "colors": "^1.3.3",
+    "inquirer": "^6.2.2",
+    "mysql": "^2.16.0"
+  }
+}
