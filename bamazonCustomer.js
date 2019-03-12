@@ -8,7 +8,7 @@ var connection = mysql.createConnection({
     host: 'localhost',
     port: 3306,
     user: 'root',
-    password: '',
+    password: 'Sw1mm3r123!',
     database: 'bamazon_DB'
 });
 
@@ -122,7 +122,7 @@ function menu() {
                     item_id: itemId
                 }], function(err, res) {
                     if (err) throw err;
-                    console.log('Your order total cost $'.green + totalCost + '. Thank you for shopping with Bamazon!'.cyan);
+                    console.log('Your order total cost: '.green + '$' + totalCost + '. Thank you for shopping with Bamazon!'.cyan);
                     connection.destroy();
                 });
             } else {
