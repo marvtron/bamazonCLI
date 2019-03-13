@@ -1,4 +1,4 @@
-//console.log('hello world');
+console.log('hello world');
 
 // Require NPM packages
 const mysql = require('mysql');
@@ -11,7 +11,7 @@ var connection = mysql.createConnection({
     port: 3306,
     user: 'root',
     password: '',
-    database: 'bamazon_db'
+    database: 'bamazon_DBS'
 });
 
 // Set counter for total number of products
@@ -46,6 +46,62 @@ connection.connect(function(err){
 
 //Enter the manager prompts
 function enterManagerApp(){
+    inquirer.prompt([{
+        name: 'entrance',
+        message: 'What would you like to do?',
+        type: 'list',
+        choices: ['View Products for Sale', 'View Low Inventory', 'Add to Inventory', 'Add New Product', 'EXIT']
+    }]).then(function(answer){
+        switch (answer.entrance) {
+            case 'View Products for Sale':
+                itemsForSale();
+                break;
+            case 'View Low Inventory':
+                lowInventory();
+                break;
+            case 'Add to Inventory':
+                addInventory();
+                break;
+            case 'Add New Product':
+                addProduct();
+                break;
+            case 'EXIT':
+                console.log('Gooodbye Manager'.bgCyan);
+                connection.destroy();
+                return;
+                break;
+            default:
+                enterManagerApp();
+                break;
+
+        };
+    });
+}
+
+//Logs all items
+function logItems(result) {
+    result.forEach(function(item){
+        numberOfProductTypes++;
+        console.log('Item ID: '.cyan + item.item_id + ' || Product Name: '.yellow + item.product_name + ' || Department: '.blue + item.department_name + ' || Price: '.green + item.price + ' || Stock: '.cyan + item.stock_quantity); 
+    });
+}
+
+//Grabs all items for sale from DB
+function itemsForSale() {
     
 }
 
+//grabs all items with an inventory > 5
+function lowInventory(){
+
+}
+
+//Function to add inventory to SQL DB
+function addInventory(){
+
+}
+
+//Function to add a new product to the DB
+function addProduct(){
+    
+}
