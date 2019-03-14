@@ -1,4 +1,4 @@
-console.log('hello world');
+//console.log('hello world');
 
 // Require NPM packages
 const mysql = require('mysql');
@@ -10,7 +10,7 @@ var connection = mysql.createConnection({
     host: 'localhost',
     port: 3306,
     user: 'root',
-    password: '',
+    password: 'Sw1mm3r123!',
     database: 'bamazon_DB'
 });
 
@@ -106,7 +106,20 @@ function itemsForSale() {
 
 //grabs all items with an inventory > 5
 function lowInventory(){
-
+    return new Promise(function(resolve, reject){
+        connection.query('SELECT * FROM products WHERE stock_quantity <= 5', function(err, res){
+            if (err) reject(err);
+            resolve(res);
+        });
+    }).then(function(result){
+        logItems(result);
+    }).then(function(){
+        enterManagerApp();
+        //catch errors
+    }) .catch(function(err){
+        console.log(err);
+        connection.destroy();
+    });
 }
 
 //Function to add inventory to SQL DB
