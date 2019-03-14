@@ -10,8 +10,8 @@ var connection = mysql.createConnection({
     host: 'localhost',
     port: 3306,
     user: 'root',
-    password: '',
-    database: 'bamazon_DBS'
+    password: 'Sw1mm3r123!',
+    database: 'bamazon_DB'
 });
 
 // Set counter for total number of products
@@ -30,7 +30,7 @@ connection.connect(function(err){
         connection.query('SELECT * FROM products', function(err, res){
             if (err) reject(err);
             resolve(res);
-            console.log("Welcome Manager!".bgCyan);
+            console.log("Welcome Manager!".bgCyan.red.bold);
         });
     }).then(function(result) {
         //increment # of products based on DB
@@ -66,7 +66,7 @@ function enterManagerApp(){
                 addProduct();
                 break;
             case 'EXIT':
-                console.log('Gooodbye Manager'.bgCyan);
+                console.log('Gooodbye Manager!'.bgCyan.red.bold);
                 connection.destroy();
                 return;
                 break;
@@ -88,7 +88,20 @@ function logItems(result) {
 
 //Grabs all items for sale from DB
 function itemsForSale() {
-    
+    return new Promise(function(resolve, reject){
+        connection.query('SELECT * FROM products', function(err, res){
+            if (err) reject(err);
+            resolve(res);
+        });
+    }).then(function(result){
+        logItems(result);
+    }).then(function(){
+        enterManagerApp();
+        //catch errors
+    }).catch(function(err){
+        console.log(err);
+        connection.destroy();
+    });
 }
 
 //grabs all items with an inventory > 5
@@ -103,5 +116,5 @@ function addInventory(){
 
 //Function to add a new product to the DB
 function addProduct(){
-    
+
 }
