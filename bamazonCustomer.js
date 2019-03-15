@@ -53,7 +53,7 @@ function enterStore() {
         if (answer.entrance === 'Yes') {
             menu();
         } else {
-            // Exist CLI if No
+            // Exit CLI if No
             console.log('Please come back soon! --Bamazon'.cyan.bold);
             connection.destroy();
             return;

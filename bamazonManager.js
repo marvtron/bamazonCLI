@@ -74,7 +74,7 @@ function enterManagerApp(){
                 enterManagerApp();
                 break;
 
-        };
+        }
     });
 }
 
@@ -116,7 +116,7 @@ function lowInventory(){
     }).then(function(){
         enterManagerApp();
         //catch errors
-    }) .catch(function(err){
+    }).catch(function(err){
         console.log(err);
         connection.destroy();
     });
