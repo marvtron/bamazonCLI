@@ -45,7 +45,7 @@ connection.connect(function(err) {
 function enterStore() {
     inquirer.prompt([{
         name: 'entrance',
-        message: 'Would you like to shop with us today?',
+        message: 'Would you like to shop with us today?'.yellow,
         type: 'list',
         choices: ['Yes', 'No']
     }]).then(function(answer) {
@@ -65,7 +65,7 @@ function enterStore() {
 function menu() {
     return inquirer.prompt([{
         name: 'item',
-        message: 'Enter the item number of the product you would like to purchase.',
+        message: 'Enter the item number of the product you would like to purchase.'.yellow,
         type: 'input',
         // Validator to ensure the product number is a number and it exists
         validate: function(value) {
@@ -78,7 +78,7 @@ function menu() {
         }
     }, {
         name: 'quantity',
-        message: 'How many would you like to buy?',
+        message: 'How many would you like to buy?'.yellow,
         type: 'input',
         // Validator to ensure it is number
         validate: function(value) {

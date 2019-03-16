@@ -48,7 +48,7 @@ connection.connect(function(err){
 function enterManagerApp(){
     inquirer.prompt([{
         name: 'entrance',
-        message: 'What would you like to do?',
+        message: 'What would you like to do?'.yellow,
         type: 'list',
         choices: ['View Products for Sale', 'View Low Inventory', 'Add to Inventory', 'Add New Product', 'EXIT']
     }]).then(function(answer){
@@ -123,10 +123,62 @@ function lowInventory(){
 }
 
 //Function to add inventory to SQL DB
-function addInventory(){
-
+function addInventory() {
+    return inquirer.prompt([{
+        name: 'item',
+        message: 'Enter the item number of the product you would like to add stock to.'.yellow,
+        type: 'input',
+        validate: function(value) {
+            // Validator to ensure the product number is a number and it exists
+            if ((isNaN(value) === false) && (value <= numberOfProductTypes)) {
+                return true;
+            } else {
+                console.log('\nPlease enter a valid item ID.'.bgRed.bold);
+                return false;
+            }
+        }
+    }, {
+        name: 'quantity',
+        message: 'How much stock would you like to add?'.Yellow,
+        type: 'input',
+        // Validator to ensure it is number
+        validate: function(value) {
+            if (isNaN(value) === false) {
+                return true;
+            } else {
+                console.log('\nPlease enter a valid quantity.'.bgRed.bold);
+                return false;
+            }
+        }
+    }]).then(function(answer) {
+        return new Promise(function(resolve, reject) {
+            connection.query('SELECT stock_quantity FROM products WHERE ?', { item_id: answer.item }, function(err, res) {
+                if (err) reject(err);
+                resolve(res);
+            });
+        }).then(function(result) {
+            var updatedQuantity = parseInt(result[0].stock_quantity) + parseInt(answer.quantity);
+            var itemId = answer.item;
+            connection.query('UPDATE products SET ? WHERE ?', [{
+                stock_quantity: updatedQuantity
+            }, {
+                item_id: itemId
+            }], function(err, res) {
+                if (err) throw err;
+                console.log('The total stock has been updated to: ' + updatedQuantity + '.');
+                enterManagerApp();
+            });
+            // catch errors
+        }).catch(function(err) {
+            console.log(err);
+            connection.destroy();
+        });
+        // catch errors
+    }).catch(function(err) {
+        console.log(err);
+        connection.destroy();
+    });
 }
-
 //Function to add a new product to the DB
 function addProduct(){
 
