@@ -139,7 +139,7 @@ function addInventory() {
         }
     }, {
         name: 'quantity',
-        message: 'How much stock would you like to add?'.Yellow,
+        message: 'How much stock would you like to add?'.yellow,
         type: 'input',
         // Validator to ensure it is number
         validate: function(value) {
@@ -149,7 +149,7 @@ function addInventory() {
                 console.log('\nPlease enter a valid quantity.'.bgRed.bold);
                 return false;
             }
-        }
+}
     }]).then(function(answer) {
         return new Promise(function(resolve, reject) {
             connection.query('SELECT stock_quantity FROM products WHERE ?', { item_id: answer.item }, function(err, res) {
@@ -165,13 +165,9 @@ function addInventory() {
                 item_id: itemId
             }], function(err, res) {
                 if (err) throw err;
-                console.log('The total stock has been updated to: ' + updatedQuantity + '.');
+                console.log('The total stock has been updated to: '.yellow + updatedQuantity + '.');
                 enterManagerApp();
             });
-            // catch errors
-        }).catch(function(err) {
-            console.log(err);
-            connection.destroy();
         });
         // catch errors
     }).catch(function(err) {
@@ -181,5 +177,80 @@ function addInventory() {
 }
 //Function to add a new product to the DB
 function addProduct(){
+    return inquirer.prompt([{
+        name: 'product',
+        message: 'Enter the name of the product you would like to add.'.yellow,
+        type: 'input',
+        //validator to ensure response isn't blank
+        validate: function(value) {
+            if (value === '') {
+                console.log('/nPlease enter a valid product name'.bgRed.bold);
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }, {
+        name: 'department',
+        message: 'Enter the name of the department the product will be in'.yellow,
+        type: 'input',
+        //validator to ensure response isn't empty
+        validate: function(value) {
+            if (value === '') {
+                console.log('/nPlease enter a valid department name'.bgRed.bold);
+                return false;
+            } else {
+                return true;
+            }
+        }
 
+        }, {
+            name: 'price',
+            message: 'Enter the desired price'.yellow,
+            type: 'input',
+            //validator to ensure a valid number is entered
+            validate: function(value) {
+                if (isNaN(value) === false) {
+                    return true;
+                } else {
+                    console.log('/nPlease enter a valid price'.bgRed.bold);
+                    return false;
+                }
+            }
+        }, {
+            name: 'quantity',
+            message: 'Enter the amount of initial stock quantity'.yellow,
+            type: 'input',
+             //validator to ensure a valid number is entered
+             validate: function(value) {
+                if (isNaN(value) === false) {
+                    return true;
+                } else {
+                    console.log('/nPlease enter a valid quantity'.bgRed.bold);
+                    return false;
+                }
+            }
+        }]).then(function(answer){
+            //new Promise to update DB
+            return new Promise(function(resolve, reject){
+                connection.query('INSERT INTO products SET ?', [{
+                    product_name: answer.product,
+                    department_name: answer.department,
+                    price: answer.price,
+                    stock_quantity: answer.quantity
+                }], function(err,res){
+                    if (err) reject(err);
+                    resolve(res);
+                });
+                //log message
+            }).then(function() {
+                console.log('Your new product has been added to inventory!'.bgGreen.bold);
+                enterManagerApp();
+                //catch errors
+            }).catch(function(){
+                console.log(err);
+                connection.destroy();
+            });
+
+        });
 }
