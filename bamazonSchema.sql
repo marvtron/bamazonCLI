@@ -29,3 +29,23 @@ VALUES ('bed', 'furniture', 600, 10),
 
 -- Allows a quick view of table
 SELECT * FROM products;
+
+-- Creates the product table with variable columns
+CREATE TABLE departments (
+	department_id INT NOT NULL AUTO_INCREMENT,
+	department_name VARCHAR(100) NOT NULL,
+	over_head_costs DECIMAL(10,2) NULL,
+	PRIMARY KEY (department_id)
+);
+-- Inserts initial data into table
+INSERT INTO departments(department_name, over_head_costs)
+VALUES  ('furniture', 200.00),
+		('electronics', 125.98),
+        ('lifestyle', 200.56),
+        ('entertainment', 348.88),
+        ('antiques', 3500.28),
+        ('travel', 1200.40);
+        
+SELECT * FROM departments;
+
+    
