@@ -17,7 +17,7 @@ CREATE TABLE products (
 -- Inserts initial data into table
 INSERT INTO products(product_name, department_name, price, stock_quantity)
 VALUES ('bed', 'furniture', 600, 10),
-	   ('laptop', 'electronics', 2000, 5),
+	     ('laptop', 'electronics', 2000, 5),
        ('exercise ball', 'lifestyle', 39.99, 20),
        ('tv', 'entertainment', 799, 10),
        ('curio', 'antiques', 10, 3),
@@ -40,7 +40,7 @@ CREATE TABLE departments (
 -- Inserts initial data into table
 INSERT INTO departments(department_name, over_head_costs)
 VALUES  ('furniture', 200.00),
-		('electronics', 125.98),
+		    ('electronics', 125.98),
         ('lifestyle', 200.56),
         ('entertainment', 348.88),
         ('antiques', 3500.28),
